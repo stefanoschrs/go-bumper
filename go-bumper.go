@@ -54,7 +54,9 @@ func bumpConfigXml()  {
 
 	re := regexp.MustCompile(`<widget.*version="([0-9]+\.[0-9]+\.[0-9]+)"`)
 	version := re.FindStringSubmatch(string(data))[1]
-	fmt.Printf("Current version: %s\n", version)
+	if !*quietFlag {
+		fmt.Printf("Current version: %s\n", version)
+	}
 
 	var newVersion string
 	switch bumpType {
@@ -68,7 +70,11 @@ func bumpConfigXml()  {
 		newVersion = versionMajor(version)
 		break
 	}
-	fmt.Printf("New version: %s\n", newVersion)
+	if !*quietFlag {
+		fmt.Printf("New version: %s\n", newVersion)
+	} else {
+		fmt.Printf("%s", newVersion)
+	}
 
 	re = regexp.MustCompile(version)
 	newData := re.ReplaceAllString(string(data), newVersion)
@@ -84,7 +90,9 @@ func bumpPackageJson()  {
 
 	re := regexp.MustCompile(`"version": "([0-9]+\.[0-9]+\.[0-9]+)"`)
 	version := re.FindStringSubmatch(string(data))[1]
-	fmt.Printf("Current version: %s\n", version)
+	if !*quietFlag {
+		fmt.Printf("Current version: %s\n", version)
+	}
 
 	var newVersion string
 	switch bumpType {
@@ -98,7 +106,11 @@ func bumpPackageJson()  {
 		newVersion = versionMajor(version)
 		break
 	}
-	fmt.Printf("New version: %s\n", newVersion)
+	if !*quietFlag {
+		fmt.Printf("New version: %s\n", newVersion)
+	} else {
+		fmt.Printf("%s", newVersion)
+	}
 
 	re = regexp.MustCompile(version)
 	newData := re.ReplaceAllString(string(data), newVersion)
@@ -117,13 +129,19 @@ func bump(name string)  {
 	}
 }
 
-func main() {
-	var patchFlag = flag.Bool("patch", false, "Patch Bump")
-	var minorFlag = flag.Bool("minor", false, "Minor Bump")
-	var majorFlag = flag.Bool("major", false, "Major Bump")
+var (
+	quietFlag = flag.Bool("quiet", false, "Quiet")
+	patchFlag = flag.Bool("patch", false, "Patch Bump")
+	minorFlag = flag.Bool("minor", false, "Minor Bump")
+	majorFlag = flag.Bool("major", false, "Major Bump")
+)
 
+func main() {
 	flag.Parse()
-	fmt.Printf("Patch: %t, Minor: %t, Major: %t\n", *patchFlag, *minorFlag, *majorFlag)
+	if !*quietFlag {
+		fmt.Printf("Patch: %t, Minor: %t, Major: %t\n", *patchFlag, *minorFlag, *majorFlag)
+	}
+
 	if *patchFlag {
 		bumpType = 0
 	}
@@ -141,7 +159,9 @@ func main() {
 		name := f.Name()
 
 		if _contains(supportedFiles, name) {
-			fmt.Printf("Bumping %s\n", name)
+			if !*quietFlag {
+				fmt.Printf("Bumping %s\n", name)
+			}
 			bump(name)
 		}
 	}
