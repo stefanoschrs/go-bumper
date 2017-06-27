@@ -1,8 +1,9 @@
 # go-bumper
 
-### Supported
+### Supported Files
 - config.xml
 - package.json
 
 ### TODO
-- bower.json
+- Add **bower.json**
+- Add a logging library or create a log function that will be easily turned on/ off for verbose mode
