@@ -1,0 +1,22 @@
+sudo: false
+
+env:
+  - CODECLIMATE_REPO_TOKEN=38f2579680aa3659e0f6de1acc8b4e45d6be00767794283948cd9a66cbbf60e4
+
+language: go
+
+go:
+  - 1.7.x
+  - 1.8.x
+  - master
+
+install:
+  - # Do nothing
+
+############
+# Examples #
+############
+# https://github.com/google/go-github/blob/master/.travis.yml
+# https://github.com/exercism/go/blob/master/.travis.yml
+# https://github.com/hashicorp/packer/blob/master/.travis.yml
+# https://github.com/stefanoschrs/trabandcamp/blob/master/.travis.yml
